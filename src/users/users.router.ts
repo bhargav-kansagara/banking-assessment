@@ -1,43 +1,38 @@
 import express, { Request, Response } from "express";
-import { StatusCodes } from "http-status-codes";
-import { validateRequest } from "../common/utils/requestValidator";
-import { User, UserSchema } from "./user.interface";
-import * as UserService from "./users.service";
+import { validateRequest } from "@/common/utils/requestValidator";
+import { User, UserSchema } from "@/users/user.interface";
+import * as UserService from "@/users/users.service";
 
 export const usersRouter = express.Router();
 
 usersRouter.get("/:id", async (req: Request, res: Response, next) => {
-    try
-    {
-        const id: number = parseInt(req.params.id, 10);
-        const item: User = await UserService.get(id);
+  try {
+    const item: User = await UserService.get(req.params.id);
 
-        if (item)
-        {
-            res.status(200).send(item);
-        }
-
-        res.status(404).send("item not found");
-    } catch (err: Error)
-    {
-        next(err);
+    if (item) {
+      return res.status(200).send(item);
     }
+
+    return res.status(404).send("item not found");
+  } catch (err) {
+    next(err);
+  }
 });
 
-usersRouter.put("/:id", validateRequest(UserSchema), async (req: Request, res: Response, next) => {
-    try
-    {
-        console.log("router put");
-        const item = req.body;
-        item.id = parseInt(req.params.id, 10);
-        const createdItem: User = await UserService.create(item);
+usersRouter.put(
+  "/:id",
+  validateRequest(UserSchema),
+  async (req: Request, res: Response, next) => {
+    try {
+      const item = req.body;
+      item.id = req.params.id;
+      const createdItem: User = await UserService.create(item);
 
-        if (createdItem)
-        {
-            res.status(201).send(createdItem);
-        }
-    } catch (err: Error)
-    {
-        next(err);
+      if (createdItem) {
+        return res.status(201).send(createdItem);
+      }
+    } catch (err) {
+      next(err);
     }
-});
+  },
+);

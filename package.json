@@ -4,13 +4,19 @@
   "description": "Banking app which exposes APIs to check balance and perform transactions",
   "main": "src/index.ts",
   "scripts": {
-    "dev": "ts-node-dev --respawn --pretty --transpile-only src/index.ts",
-    "build": "rm -rf build/ && prettier --write src/ && tsc"
+    "dev": "tsx watch --clear-screen=false src/index.ts | pino-pretty",
+    "build": "tsup src/",
+    "start": "node dist/index.js",
+    "clean": "rimraf dist coverage",
+    "lint": "biome check src/",
+    "lint:fix": "biome check src/ --fix",
+    "format": "biome format src/"
   },
   "license": "ISC",
   "dependencies": {
     "@aws-sdk/client-dynamodb": "^3.658.1",
     "@aws-sdk/lib-dynamodb": "^3.658.1",
+    "axios": "^1.7.7",
     "cors": "^2.8.5",
     "express": "^4.21.0",
     "http-status-codes": "^2.3.0",
@@ -26,8 +32,17 @@
     "@types/node": "^22.7.4",
     "@typescript-eslint/eslint-plugin": "^8.8.0",
     "@typescript-eslint/parser": "^8.8.0",
-    "eslint": "^9.11.1",
-    "globals": "^15.10.0",
-    "typescript-eslint": "^8.8.0"
+    "biome": "^0.3.3",
+    "lint-staged": "^15.2.2",
+    "pino-pretty": "^11.0.0",
+    "prettier": "^3.3.3",
+    "rimraf": "^6.0.0",
+    "supertest": "^7.0.0",
+    "ts-node-dev": "^2.0.0",
+    "tsup": "^8.0.2",
+    "tsx": "^4.7.2",
+    "typescript": "^5.4.4",
+    "vite-tsconfig-paths": "^5.0.0",
+    "vitest": "^2.0.0"
   }
 }
