@@ -2,7 +2,7 @@
 ## Run locally in dev mode
 ### Prerequisit
 - Node (https://github.com/nvm-sh/nvm/blob/master/README.md)
-- Docker Desktop for running awslocal (https://www.docker.com/products/docker-desktop/)
+- [Docker Desktop](https://www.docker.com/products/docker-desktop/) for running [localstack](https://app.localstack.cloud/instances) (to run AWS services locally)
 
 ### Steps to run service locally
 - Run `docker run --rm -it -p 4566:4566 -p 4510-4559:4510-4559 localstack/localstack` to initiate aws local environment
